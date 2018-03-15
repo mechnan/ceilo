@@ -78,7 +78,7 @@ density=Navogadro*P/R./(T);
 
 % alpha_mol=sigma*density;
 
-for i=1:size(z,1);
+for i=1:size(z,1)
     % From Bucholtz 1995
     beta_mol_tot(i)=24*pi()^3*((m^2-1)^2)*(6+3*rho)/...
         (lambda_rec^4*N^2*(m^2+2)^2*(6-7*rho))*N*T0*P(i)/P0/T(i);
@@ -102,7 +102,12 @@ beta_att=NaN(size(P));
 
 trans=NaN(size(P));
 trans_em=NaN(size(P));
-step_z=z(2)-z(1);
+
+if length(z)>1
+    step_z=z(2)-z(1);
+else
+    step_z = 0;
+end
 
 for i=1:length(z)
     trans_em(i)=exp(-sum(alpha_mol_em(1:i)*step_z));
