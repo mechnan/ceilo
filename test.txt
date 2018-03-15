@@ -6,4 +6,13 @@
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 test\
+<<<<<<< HEAD:test.rtf
+\
+test2\
 }
+=======
+<<<<<<< HEADhallo ich bin killian\
+\
+\
+Test 2 celio freunde ((:}
+>>>>>>> 3e4ad3a16ca32172ade4ed1cf5328d94287cc227:test.txt
