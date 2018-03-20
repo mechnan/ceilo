@@ -2,7 +2,7 @@ function [sonic] = read_sonic_run_from_files(time_period, path )
 % read sonic data from files
 % Roveredo station
 % Remo Sigg FS2018
-% grosser Teil des Codes von read_sonic_from_files uebernommen
+% grosser Teil des Codes aus read_sonic_from_files uebernommen
 
 % Konstanten festlegen
 rho=1.293;                      % kg m-3
@@ -95,8 +95,8 @@ for l=1:length(time_period)
         kvwt = nanmean(KS);                            % Richtung des Waermetransportes aufgrund der Fluktuationen
         
         % Fluesse aus Kovarianzen berechnen
-        ssp=-rho*nanmean(Uf.*wf);                      % Schubspannung
-        H=rho*cp*kvwt;                                 % Sensibler Waermefluss
+        ssp=-rho*nanmean(Uf.*wf);                      % Schubspannung N m-2
+        H=rho*cp*kvwt;                                 % Sensibler Waermefluss W m-2
         vel_ssp=sqrt(abs(nanmean(Uf.*wf)));            % Schubspannungsgeschwindigkeit
         E=rho*(2500827-2360*(Tm-T0))*nanmean(wf.*qf);  % Latenter Waermefluss
         
@@ -112,8 +112,9 @@ for l=1:length(time_period)
         
         % Rauigkeitslaenge z0
         
+        
         % dimensionslose Parameter z'/L
-        zeta=5.0/L;
+        zeta=5.0/L;                                    % Stabilitaetsmass z/L
         
         fclose(fid);
     end
