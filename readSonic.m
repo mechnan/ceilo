@@ -2,13 +2,16 @@ clear
 clc
 
 % path to data
-path='/Users/RemoSigg/polybox/ETH-ERDW/ERDW - 6.Semester/Praktikum Atmosphäre/Ceilometergruppe/CeilometerFS2018/data/Sonic';
+root_url='http://iacweb.ethz.ch/staff//krieger/data/FS18/Sonic';
+% path='/Users/RemoSigg/polybox/ETH-ERDW/ERDW - 6.Semester/Praktikum Atmosphäre/Ceilometergruppe/CeilometerFS2018/data/Sonic';
 
 % time period
 time_period = datenum(2018,03,05,00,00,00):15/60/24:datenum(2018,03,06,00,00,00);
 
 % sonic data in matrix
-sonic = read_sonic_run_from_files(time_period, path);
+sonic = read_sonic_run_from_url(time_period, root_url);
+% sonic = read_sonic_run_from_files(time_period, path);
+
 % Spaltenausgaben sonic 
 %  1  = Zeit (15 min Periode)
 %  2  = sensibler Waermefluss in W m-2
