@@ -1,7 +1,7 @@
 
 clear
 
-list_dates = datenum(2018,2,23);
+list_dates = datenum(2018,3,8):datenum(2018,3,10);
 root_url = 'http://iacweb.ethz.ch/staff//krieger/data/FS18/Ceilometer/';
 
 
@@ -16,11 +16,12 @@ colormap(jet);
 caxis([4 5.5]);
 %set(gca, 'YScale', 'log')
 datetick;
-%ylim([0 3000]);
+ylim([0 5000]);
 
-
+%% clouds
 clouds = getclouds(ceilo);
 
+figure;
 area(ceilo.time,clouds);
 datetick;
 
