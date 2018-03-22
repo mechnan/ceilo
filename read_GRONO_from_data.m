@@ -5,7 +5,7 @@
 % -----------------------------------------------------------------------
 
 % clear workspace and command window
-clear
+clear;
 %clc
 
 % -- read data -----------------------------------------------------
@@ -28,7 +28,7 @@ data.N1872  = []; % 1872 Niederschlagsdauer; Zehnminutensumme [min]
 data.B99    = []; % 99 Nahblitze (Entfernung weniger als 3 km); Zehnminutensumme [No]
 data.B100   = []; % 100 Fernblitze (Entfernung 3 - 30 km); Zehnminutensumme [No]
 data.S94    = []; % 94 Sonnenscheindauer; Zehnminutensumme [min]
-data.S197   = []; % 197 Sonnenscheindauer; Zehnminutensumme [min]
+data.S197   = []; % 197 Windrichtung [°]
 data.U196   = []; % 196 Windgeschwindigkeit skalar; Zehnminutenmittel [m/s]
 data.P968   = []; % 968 Luftdruck reduziert auf Meeresniveau (QFF); Momentanwert [hPa]
 data.P967   = []; % 967 Luftdruck reduziert auf Meeresniveau mit Standardatmosph�re (QNH); Momentanwert [hPa]
