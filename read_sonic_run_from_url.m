@@ -49,8 +49,10 @@ for l=1:length(time_period)
         wind=[u,v,w];
         % Bestimmung z: Einheitsvektor z-Achse und tilt-Koeffizienten b0,b1,b2
         i_ok = isfinite(u) & isfinite(v) & isfinite(w);
-        [z,b] = getPlanarFitCoeffs(u(i_ok),v(i_ok),w(i_ok));
-        method='PF';
+
+%       [z,b] = getPlanarFitCoeffs(u(i_ok),v(i_ok),w(i_ok));  % option 'PF'
+        z = [0 0 1];
+        method='DR'; % option 'PF'
         [wind,theta,phi] = rotateWindVector(wind,method,z);
         
         u=wind(:,1);
@@ -91,7 +93,7 @@ for l=1:length(time_period)
         ssp=-rho*nanmean(Uf.*wf);                      % Schubspannung N m-2
         H=rho*cp*kvwt;                                 % Sensibler Waermefluss W m-2
         vel_ssp=sqrt(abs(nanmean(Uf.*wf)));            % Schubspannungsgeschwindigkeit
-        E=rho*(2500827-2360*(Tm-T0))*nanmean(wf.*qf);  % Latenter Waermefluss
+        E=rho*(2500827-2360*(Tm-T0))*nanmean(wf.*qf);  % Latenter Waermefluss W m-2
         
         FCO2 = rho*nanmean(wf.*cf);                    % CO2 Fluss
         
@@ -106,8 +108,8 @@ for l=1:length(time_period)
         % Rauigkeitslaenge z0
         
         
-        % dimensionslose Parameter z'/L
-        zeta=5.0/L;                                    % Stabilitaetsmass z'/L
+        % dimensionslose Parameter z'/L; z'= Höhe des Sonic über dem Boden
+        zeta=4.5/L;                                    % Stabilitaetsmass z'/L
     
     % Werte in Messdatentabelle schreiben
     sonic(l,1)=datenum(dv(1),dv(2),dv(3),dv(4),dv(5),00);

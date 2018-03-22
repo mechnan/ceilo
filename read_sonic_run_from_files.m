@@ -56,8 +56,10 @@ for l=1:length(time_period)
         wind=[u,v,w];
         % Bestimmung z: Einheitsvektor z-Achse und tilt-Koeffizienten b0,b1,b2
         i_ok = isfinite(u) & isfinite(v) & isfinite(w);
-        [z,b] = getPlanarFitCoeffs(u(i_ok),v(i_ok),w(i_ok));
-        method='PF';
+        
+%         [z,b] = getPlanarFitCoeffs(u(i_ok),v(i_ok),w(i_ok)); % option 'PF'
+        z = [0 0 1]
+        method='DR'; % option 'PF'
         [wind,theta,phi] = rotateWindVector(wind,method,z);
         
         u=wind(:,1);
@@ -113,8 +115,8 @@ for l=1:length(time_period)
         % Rauigkeitslaenge z0
         
         
-        % dimensionslose Parameter z'/L
-        zeta=5.0/L;                                    % Stabilitaetsmass z/L
+        % dimensionslose Parameter z'/L; z'= Höhe des Sonic über dem Boden
+        zeta=4.5/L;                                    % Stabilitaetsmass 
         
         fclose(fid);
     end

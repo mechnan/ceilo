@@ -9,7 +9,7 @@ root_url='http://iacweb.ethz.ch/staff//krieger/data/FS18/Sonic';
 time_period = datenum(2018,03,05,00,00,00):15/60/24:datenum(2018,03,06,00,00,00);
 
 % sonic data in matrix
-sonic = read_sonic_run_from_url(time_period, root_url);
+ sonic = read_sonic_run_from_url(time_period, root_url);
 % sonic = read_sonic_run_from_files(time_period, path);
 
 % Spaltenausgaben sonic 
@@ -40,4 +40,5 @@ plot(datetime(sonic(:,1),'ConvertFrom','datenum'), sonic(:,10))
 
 figure;
 plot(datetime(sonic(:,1),'ConvertFrom','datenum'), sonic(:,13))
+ylim([-2 2])
 grid on;
