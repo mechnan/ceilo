@@ -1,7 +1,7 @@
 
 clear;
 
-list_dates = datenum(2018,3,2);
+list_dates = datenum(2018,3,7);
 root_url = 'http://iacweb.ethz.ch/staff//krieger/data/FS18/Ceilometer/';
 
 
@@ -81,14 +81,30 @@ data.N93    = [data.N93;   c{12}];
 % set 'serial date time' for each messurement
 data.time = datenum(data.year,data.month,data.day,data.hour,data.min,0);
 
+
 subplot(3,1,3);
 startdate = list_dates;
 enddate   = list_dates+1;
+
+% ev. transformation of grono data in utc time
+% if startdate < 737143             %solar time
+%     data.hour=data.hour+1;
+% elseif startdate == 737143        %24.03 change of time at 02:00
+%     if data.hour < 2
+%         data.hour=data.hour+1;
+%     else
+%         data.hour=data.hour+2;
+%     end    
+% else                              %legal time
+%     data.hour=data.hour+2;
+% end
+% 
+% data.time = datenum(data.year,data.month,data.day,data.hour,data.min,0);
+
 index_start=find(data.time==startdate);
 index_end=find(data.time==enddate);
 plot(data.time(index_start:index_end), data.N93(index_start:index_end));
-%length(data.time)
-xlabel('UTC Time')
+xlabel('Local Time')
 ylabel('Precipitation, 10 minutes mean [mm]')
 title('Precipitation in Grono Station')
 datetick;

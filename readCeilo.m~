@@ -1,7 +1,7 @@
 
 clear;
 
-list_dates = datenum(2018,3,12);
+list_dates = datenum(2018,3,1);
 root_url = 'http://iacweb.ethz.ch/staff//krieger/data/FS18/Ceilometer/';
 
 
@@ -9,11 +9,11 @@ ceilo = read_ceilo_from_url(list_dates,root_url);
 
 %% height vs time plot
 figure;
-pcolor(ceilo.time,ceilo.range,log10(abs(ceilo.RCS)));
+pcolor(ceilo.time,ceilo.range,log10(abs(0.75*(ceilo.RCS))));
 shading flat;
 hc = colorbar;
 colormap(jet);
-caxis([3 4.5]);
+caxis([2.4 5.5]);
 %set(gca, 'YScale', 'log')
 datetick;
 ylim([0 3000]);
@@ -39,10 +39,10 @@ datetick;
 
 figure;
 subplot(3,1,1);
-pcolor(ceilo.time,ceilo.range,log10(abs(ceilo.RCS)));
+pcolor(ceilo.time,ceilo.range,log10(abs(0.75*(ceilo.RCS))));
 shading flat;
 colormap(jet);
-caxis([3 4.5]);
+caxis([2.4 5.5]);
 %set(gca, 'YScale', 'log')
 datetick;
 ylim([0 3000]);
@@ -81,16 +81,33 @@ data.N93    = [data.N93;   c{12}];
 % set 'serial date time' for each messurement
 data.time = datenum(data.year,data.month,data.day,data.hour,data.min,0);
 
+
 subplot(3,1,3);
 startdate = list_dates;
-% enddate   = list_dates;
+enddate   = list_dates+1;
+
+% transformation grono data in local time
+if startdate < 737143             %solar time
+    data.hour=data.hour+1;
+elseif startdate == 737143        %24.03 change of time at 02:00
+    if data.hour < 2
+        data.hour=data.hour+1;
+    else
+        data.hour=data.hour+2;
+    end    
+else                              %legal time
+    data.hour=data.hour+2;
+end
+
+data.time = datenum(data.year,data.month,data.day,data.hour,data.min,0);
+
 index_start=find(data.time==startdate);
 index_end=find(data.time==enddate);
-plot(data.N93(index_start));
-xlabel('UTC Time')
-ylabel('Precipitation presence')
+plot(data.time(index_start:index_end), data.N93(index_start:index_end));
+xlabel('Local Time')
+ylabel('Precipitation, 10 minutes mean [mm]')
 title('Precipitation in Grono Station')
-% datetick;
+datetick;
 %% height averaging
 low_profile_value = nanmean(ceilo.RCS(45:55,:),1);
 

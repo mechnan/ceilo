@@ -14,7 +14,7 @@
 
 function percipitation = getpercipitation(ceilo)
 
-thresholdPercipitation = 10^4; % empirical threshold for percipitation
+thresholdPercipitation = 6*10^4; % empirical threshold for percipitation
 thresholdFraction = 0.6; % fraction of profile between ground and cloud that has to show percipitation
 fogHeight = 100; % discard cbh's up to this hight as percipitation source
 
