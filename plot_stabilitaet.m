@@ -4,7 +4,7 @@ function plot_stabilitaet(Messdaten)
 
 %% Berechne
 time = Messdaten(:,1);
-MoninObukhovL = 5.0./Messdaten(:,13);
+MoninObukhovL = 4.5./Messdaten(:,13);
 SensHeatFlux = Messdaten(:,2);
 T = Messdaten(:,9);
 
@@ -66,7 +66,7 @@ plot(datetime([floor(time(1)),ceil(time(end))],'convertfrom','datenum'),3.5*ones
 
 hold on;
 %15-min Stabilität
-stem(datetime(time,'convertfrom','datenum'),stability_index,'Color',[0.8 0.2 0.2],'marker','none');
+% stem(datetime(time,'convertfrom','datenum'),stability_index,'Color',[0.8 0.2 0.2],'marker','none');
 %1h-Stabilität und 1h-Temperaturwechsel
 [ax,p1,p2] = plotyy(datetime(datetime_hourly,'convertfrom','datenum'),stability_index_hourly,datetime(datetime_hourly,'convertfrom','datenum'),3.5+3*diffT_hourly/max(abs(diffT_hourly),[],'omitnan'));
 

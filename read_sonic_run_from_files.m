@@ -58,8 +58,8 @@ for l=1:length(time_period)
         i_ok = isfinite(u) & isfinite(v) & isfinite(w);
         
 %         [z,b] = getPlanarFitCoeffs(u(i_ok),v(i_ok),w(i_ok)); % option 'PF'
-        z = [0 0 1]
-        method='DR'; % option 'PF'
+        z = [0 0 1]; % option 'DR'
+        method='DR'; % option 'DR' or 'PF'
         [wind,theta,phi] = rotateWindVector(wind,method,z);
         
         u=wind(:,1);
