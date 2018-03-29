@@ -3,7 +3,7 @@
 
 % read_ceilo_from_url(datenum(2018,01,14),'http://iacweb.ethz.ch/staff//krieger/data/FS18/Ceilometer/')
 
-function ceilo = read_ceilo_from_url(list_dates,root_url)
+function ceilo = read_ceilo_from_url_v0(list_dates,root_url)
 
 ceilo = struct;
 ceilo.name = 'Roveredo';
