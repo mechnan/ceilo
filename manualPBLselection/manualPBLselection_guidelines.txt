@@ -1,0 +1,15 @@
+0.) take all informations (station measurements, instrumental PBL, etc.) into account (we should try to get the most physically correct detection)
+
+1.) is manual detection possible ? (is it possible to follow a layer during the day with good confidence for a resonable amount of time ?)
+
+2.1) in case of cloud: detect at cloud base.
+2.2) in case of fog/low stratus: detection allowed when it begins to dissipate.
+2.3) in case of precip: detection possible only during time intervals without precip of at least 2h duration
+
+3.1) for CBL, begin after sunrise, end before sunset.
+3.2) look for a CBL decay when vertical heat flux is about 0 and deltaT is "frankly" smaller than 0 at the end of the day. If no decaying layer can be followed, make no detection.
+3.3) keep in mind that CBL should start developping from the ground after sunrise, i.e. don't look at too elevated layers in the morning.
+
+4.) if possible, try to put as many points as necessary such that a linear interpolation between the points would trustworthy depict the short-term evolution of the observed layer.
+
+Have fun !
