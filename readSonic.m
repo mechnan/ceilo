@@ -27,7 +27,7 @@ sonic = read_sonic_run_from_files(time_period, path);
 % 12  = Schubspannungsgeschwindigkeit
 % 13  = Stabilitaetsmass z/L (<0 instabil; >0 stabil)
 % 14  = Windrichtung in Grad
-% 15  = CO2 Fluss
+% 15  = CO2 Fluss kg m-2 s-1
 
 %% plot Waermefluesse Tagesgangmittel
 
@@ -55,13 +55,13 @@ if test_timearray(4) == 48 && test_timearray(5) == 48
  
     % Tagesgangmittel über die Messperiode
     for i = 1:m
-        H_mittel(i) = nanmean(H_matrix(:,i)); % sensibler Waermefluss
+        CO2_mittel(i) = nanmean(H_matrix(:,i)); % sensibler Waermefluss
         E_mittel(i) = nanmean(E_matrix(:,i)); % latenter Waermefluss
         H_std(i) = nanstd(H_matrix(:,i)); % Standardabweichung H
         E_std(i) = nanstd(E_matrix(:,i)); % Standardabweichung E
         % obere und untere Grenzen der Standardabweichung
-        H_hi(i) = H_mittel(i) + H_std(i);
-        H_lo(i) = H_mittel(i) - H_std(i);
+        H_hi(i) = CO2_mittel(i) + H_std(i);
+        H_lo(i) = CO2_mittel(i) - H_std(i);
         E_hi(i) = E_mittel(i) + E_std(i);
         E_lo(i) = E_mittel(i) - E_std(i);
     end
@@ -71,9 +71,9 @@ if test_timearray(4) == 48 && test_timearray(5) == 48
     set(gcf, 'Position', get(0, 'Screensize'));
     subplot(1,2,1)
     t = datetime(sonic(1:m,1),'ConvertFrom','datenum');
-    confplot(t,H_mittel,H_std)
+    confplot(t,CO2_mittel,H_std)
     hold on;
-    plot(t,H_mittel,'r','LineWidth',1.5)
+    plot(t,CO2_mittel,'r','LineWidth',1.5)
     plot(t,H_hi,'color',[.8 .8 .8])
     plot(t,H_lo,'color',[.8 .8 .8])
     datetick('x','HH:MM','keeplimits','keepticks')
@@ -106,3 +106,51 @@ end
 
 plot_stabilitaet(sonic)
 
+%% CO2 Fluss
+
+% Teste ob die Zeitperiode um 00:00 Uhr beginnt
+test_timearray = datestr(sonic(1,1),'HH:MM')*1; % sollte [...,...,...,48,48]
+
+if test_timearray(4) == 48 && test_timearray(5) == 48
+   
+    m = 4*24; % Anzahl 15 min Werte in einem Tag
+    Tage = (length(time_period)-1)/m; % Anzahl Tage in time_period
+    
+    % Initialisiere Matrix für Tagesgänge in Zeilen
+    CO2_matrix = NaN(Tage,m); 
+    
+    % Matrix füllen mit 15 min Werten CO2 Fluss
+    for j = 1:Tage 
+        CO2_matrix(j,:) = sonic((1+m*(j-1)):(m*j),15)*1000000; % faktor 1'000'000 für kg zu mg
+    end
+ 
+    % Tagesgangmittel über die Messperiode
+    for i = 1:m
+        CO2_mittel(i) = nanmean(CO2_matrix(:,i)); % sensibler Waermefluss
+        CO2_std(i) = nanstd(CO2_matrix(:,i)); % Standardabweichung H
+        % obere und untere Grenzen der Standardabweichung
+        CO2_hi(i) = CO2_mittel(i) + CO2_std(i);
+        CO2_lo(i) = CO2_mittel(i) - CO2_std(i);
+    end
+    
+    % Plot CO2 Waermefluss
+    figure;
+    set(gcf, 'Position', get(0, 'Screensize'));
+%     subplot(1,2,1)
+    t = datetime(sonic(1:m,1),'ConvertFrom','datenum');
+    confplot(t,CO2_mittel,CO2_std)
+    hold on;
+    plot(t,CO2_mittel,'g','LineWidth',1.5)
+    plot(t,CO2_hi,'color',[.8 .8 .8])
+    plot(t,CO2_lo,'color',[.8 .8 .8])
+    datetick('x','HH:MM','keeplimits','keepticks')
+    grid on;
+    title(['Tagesgang des CO_2 Flusses gemittelt über ', num2str(Tage),' Tage'])
+    xlabel('Zeit')
+    ylabel('H [mg / m^2 s]')
+    legend('Stndardabweichung')
+%     ylim([-60 100])
+    
+else
+     disp('Bitte Zeitperiode um 00:00 Uhr starten')
+end
