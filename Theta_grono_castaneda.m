@@ -1,9 +1,9 @@
-%% stability index from pot. Temperatur Grono - Castadena
+%% stability index from pot. Temperatur Grono - Castaneda
 
 % load Grono data then Run
 
 
-%% calculate mean potential temperature at Grono and Castadena
+%% calculate mean potential temperature at Grono and Castaneda
 list_dates = datenum(2018,2,20):datenum(2018,3,09);
 
 time_theta = floor(list_dates(1)):1/24:ceil(list_dates(end));
@@ -90,7 +90,7 @@ for i=1:length(stability_index_hourly)
 end
 
 
-%% plot stability index Grono - Castadena
+%% plot stability index Grono - Castaneda
 
 stability_index2 = NaN(length(slope_theta),1);
 for i=1:length(slope_theta)
@@ -116,7 +116,7 @@ xlim([datetime(list_dates(1),'convertfrom','datenum') datetime(list_dates(end),'
 title('Stabilitätsindex')
 ylabel('Stabilität');
 xlabel('Zeit');
-legend('pot. Temperatur Grono - Castadena','sonic data');
+legend('pot. Temperatur Grono - Castaneda','sonic data');
 grid on;
 
 
