@@ -1,10 +1,10 @@
-%% stability index from pot. Temperatur Grono - Castaneda
+%% stability index from pot. Temperatur Grono - Castaneda (?h~450m)
 
 % load Grono data then Run
 
 
 %% calculate mean potential temperature at Grono and Castaneda
-list_dates = datenum(2018,2,20):datenum(2018,3,09);
+list_dates = datenum(2018,2,28):datenum(2018,3,09);
 
 time_theta = floor(list_dates(1)):1/24:ceil(list_dates(end));
 
@@ -29,16 +29,16 @@ end
 
 %% sonic data for stability index Sonic Roveredo
 
-% path='/Users/RemoSigg/polybox/ETH-ERDW/ERDW - 6.Semester/Praktikum Atmosphäre/Ceilometergruppe/CeilometerFS2018/data/Sonic';
-% 
-% time_period = list_dates(1):15/60/24:list_dates(end);
-% 
-% sonic = read_sonic_run_from_files(time_period, path);
-% 
-% time = sonic(:,1);
-% MoninObukhovL = 4.5./sonic(:,13);
-% SensHeatFlux = sonic(:,2);
-% T = sonic(:,9);
+path='/Users/RemoSigg/polybox/ETH-ERDW/ERDW - 6.Semester/Praktikum Atmosphäre/Ceilometergruppe/CeilometerFS2018/data/Sonic';
+
+time_period = list_dates(1):15/60/24:list_dates(end);
+
+sonic = read_sonic_run_from_files(time_period, path);
+
+time = sonic(:,1);
+MoninObukhovL = 4.5./sonic(:,13);
+SensHeatFlux = sonic(:,2);
+T = sonic(:,9);
 
 %% calculate stability index
 stability_index = NaN(length(MoninObukhovL),1);
