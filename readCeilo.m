@@ -1,7 +1,7 @@
 
 clear;
 
-list_dates = datenum(2018,3,7);
+list_dates = datenum(2018,4,13);
 root_url = 'http://iacweb.ethz.ch/staff//krieger/data/FS18/Ceilometer/';
 
 
