@@ -2,7 +2,7 @@
 clear
 
 root_url = 'http://iacweb.ethz.ch/staff//krieger/data/FS18/Ceilometer/';
-
+list_dates = datenum('2018,03,19');
 
 ceilo = read_ceilo_from_url(list_dates,root_url);
 
