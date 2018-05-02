@@ -4,7 +4,7 @@
 
 
 %% calculate mean potential temperature at Grono and Castaneda
-list_dates = datenum(2018,2,28):datenum(2018,3,09);
+list_dates = datenum(2018,2,26):datenum(2018,2,27);
 
 time_theta = floor(list_dates(1)):1/24:ceil(list_dates(end));
 

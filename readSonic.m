@@ -1,4 +1,4 @@
-clear
+% clear
 clc
 
 % Dateipfad
@@ -6,7 +6,7 @@ clc
 path='/Users/RemoSigg/polybox/ETH-ERDW/ERDW - 6.Semester/Praktikum Atmosphäre/Ceilometergruppe/CeilometerFS2018/data/Sonic';
 
 % Zeitperiode
-time_period = datenum(2018,02,01,00,00,00):15/60/24:datenum(2018,03,08,00,00,00);
+time_period = datenum(2018,02,26,00,00,00):15/60/24:datenum(2018,02,27,00,00,00);
 
 % sonic data in matrix
 % sonic = read_sonic_run_from_url(time_period, root_url);
@@ -136,7 +136,6 @@ if test_timearray(4) == 48 && test_timearray(5) == 48
     % Plot CO2 Waermefluss
     figure;
     set(gcf, 'Position', get(0, 'Screensize'));
-%     subplot(1,2,1)
     t = datetime(sonic(1:m,1),'ConvertFrom','datenum');
     confplot(t,CO2_mittel,CO2_std)
     hold on;
@@ -149,8 +148,38 @@ if test_timearray(4) == 48 && test_timearray(5) == 48
     xlabel('Zeit')
     ylabel('H [mg / m^2 s]')
     legend('Stndardabweichung')
-%     ylim([-60 100])
     
 else
      disp('Bitte Zeitperiode um 00:00 Uhr starten')
 end
+
+%% Windstärke und -richtung bei ueber 5m/s
+
+% Dateneinlesen von Messwagen Roveredo mit readMesswagen.m
+
+% Daten Messwagen
+figure;
+subplot(4,1,1)
+plot(messwagen.time,messwagen.Wges,'gx');
+set(gca,'Xtick',floor(messwagen.time(1)):4/24:ceil(messwagen.time(end)));
+datetick('x',15,'keepticks','keeplimits')
+ylabel('Wind (m/s)');
+title('Messwagen')
+hold on;
+subplot(4,1,2)
+plot(messwagen.time,messwagen.WR,'bx');
+set(gca,'Xtick',floor(messwagen.time(1)):4/24:ceil(messwagen.time(end)));
+datetick('x',15,'keepticks','keeplimits')
+ylabel('Windrichtung (Grad)')
+hold on;
+
+% Daten Sonic
+subplot(4,1,3)
+plot(datetime(sonic(:,1),'ConvertFrom','datenum'),sonic(:,14),'bx');
+ylabel('Windrichtung (Grad)')
+title('Sonic')
+hold on;
+subplot(4,1,4)
+plot(datetime(sonic(:,1),'ConvertFrom','datenum'),sonic(:,8),'gx');
+ylabel('Wind (m/s)');
+
