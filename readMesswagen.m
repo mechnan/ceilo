@@ -37,7 +37,7 @@ messwagen.sec      = [];
 
 % Pfad zu den Daten
 filepath = '/Users/RemoSigg/polybox/ETH-ERDW/ERDW - 6.Semester/Praktikum Atmosphäre/Ceilometergruppe/CeilometerFS2018/data';
-filename= [filepath '/' 'Rov_ACRO400_20180226.dat'];
+filename= [filepath '/' 'Rov_ACRO400_20180306.dat'];
 
 disp(filename);
 

@@ -135,7 +135,8 @@ for l=1:length(time_period)
     sonic(l,11)=qm;
     sonic(l,12)=vel_ssp;
     sonic(l,13)=zeta;
-    sonic(l,14)=theta/pi*180+180;
+%    sonic(l,14)=theta/pi*180+180;
+    sonic(l,14)=-theta/pi*180+180;
     sonic(l,15)=FCO2;
     
 end

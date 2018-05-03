@@ -6,7 +6,7 @@ clc
 path='/Users/RemoSigg/polybox/ETH-ERDW/ERDW - 6.Semester/Praktikum Atmosphäre/Ceilometergruppe/CeilometerFS2018/data/Sonic';
 
 % Zeitperiode
-time_period = datenum(2018,02,26,00,00,00):15/60/24:datenum(2018,02,27,00,00,00);
+time_period = datenum(2018,03,06,00,00,00):15/60/24:datenum(2018,03,07,00,00,00);
 
 % sonic data in matrix
 % sonic = read_sonic_run_from_url(time_period, root_url);
