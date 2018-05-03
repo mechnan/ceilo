@@ -29,7 +29,9 @@ end
 average_RCS=movmean(average_RCS,200,'omitnan');
 
 if makePlot==1
+    if plotRCS==1
     yyaxis right
+    end
     plot(ceilo.time,average_RCS)
     datetick;
 end
