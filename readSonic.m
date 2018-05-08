@@ -6,11 +6,12 @@ clc
 path='/Users/RemoSigg/polybox/ETH-ERDW/ERDW - 6.Semester/Praktikum Atmosphäre/Ceilometergruppe/CeilometerFS2018/data/Sonic';
 
 % Zeitperiode
-time_period = datenum(2018,03,06,00,00,00):15/60/24:datenum(2018,03,07,00,00,00);
+time_period = datenum(2018,03,02,00,00,00):15/60/24:datenum(2018,03,03,00,00,00);
 
 % sonic data in matrix
 % sonic = read_sonic_run_from_url(time_period, root_url);
 sonic = read_sonic_run_from_files(time_period, path);
+% [u,v,w,U] = read_sonic_run_from_files2(time_period, path); % hochfrequente Winde
 
 % Spaltenausgaben sonic 
 %  1  = Zeit (15 min Periode)
@@ -153,7 +154,9 @@ else
      disp('Bitte Zeitperiode um 00:00 Uhr starten')
 end
 
-%% Windstärke und -richtung bei ueber 5m/s
+
+
+%% Windstärke und -richtung 
 
 % Dateneinlesen von Messwagen Roveredo mit readMesswagen.m
 
@@ -183,3 +186,53 @@ subplot(4,1,4)
 plot(datetime(sonic(:,1),'ConvertFrom','datenum'),sonic(:,8),'gx');
 ylabel('Wind (m/s)');
 
+%% NO
+
+figure('units','normalized','outerposition',[0 0 1 1]);
+subplot(3,1,1)
+plot(messwagen.time,messwagen.NO,'rx')
+set(gca,'Xtick',floor(messwagen.time(1)):4/24:ceil(messwagen.time(end)));
+datetick('x',15,'keepticks','keeplimits')
+ylim([0 20])
+ylabel('NO')
+hold on;
+
+subplot(3,1,2)
+plot(messwagen.time,messwagen.NOX,'rx')
+set(gca,'Xtick',floor(messwagen.time(1)):4/24:ceil(messwagen.time(end)));
+datetick('x',15,'keepticks','keeplimits')
+ylim([0 20])
+ylabel('NOx')
+
+subplot(3,1,3)
+num = xlsread('03-03-18-LUEFTUNG.xlsx');
+num(:,1) = datenum(num(:,1));
+plot(datetime(num(:,1),'ConvertFrom','datenum'),num(:,2));
+
+%% Hochfrequente Winddaten aus Sonic
+% read_sonic_run_from_files2 benutzen! Nur 15 Minuten Zeitskala!
+
+figure;
+% Sekundenmittelwerte der Windgeschwindigkeit
+Um(1) = mean(U(1:20));
+for i = 1:1:936 % ~18746/20
+    Um(i+1) = mean(U((20*i)+1:20+(20*i)));
+end
+time = 1:1:937; % sekunden ab 15min start
+plot(time,Um,'gx');
+ylabel('Wind (m/s)');
+
+
+%% Windrose sonic
+
+WindRose(sonic(:,14),sonic(:,8));
+
+%% Windrose messwagen
+
+% nur Winde über 1 m/s
+mask_wind = messwagen.Wges > 1;
+messwagen.Wges = messwagen.Wges(mask_wind);
+messwagen.time = messwagen.time(mask_wind);
+messwagen.WR = messwagen.WR(mask_wind);
+
+WindRose(messwagen.WR,messwagen.Wges);
