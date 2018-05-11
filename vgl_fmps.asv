@@ -1,5 +1,3 @@
-%correlate RCS to FMPS
-
 %%read fmps file
 
 %initializing
@@ -42,15 +40,13 @@ list_dates=(startdate:enddate);
 root_url = 'http://iacweb.ethz.ch/staff//krieger/data/FS18/Ceilometer/';
 ceilo = read_ceilo_from_url(list_dates,root_url);
 
-%% calculate average RCS
-RCS = nanmean(ceilo.RCS(1:3,:),1);
-
 %% filter clouds and humidity
 clouds=getclouds(ceilo);
 precipitation=getpercipitation(ceilo);
 noclouds=~clouds;
 noprecipitation=~precipitation;
-
+%% calculate average RCS
+RCS = nanmean(ceilo.RCS(1:3,:),1);
 RCS_clearCondition =RCS(noclouds & noprecipitation);
 time_RCS = ceilo.time(noclouds & noprecipitation);
 %% Stundenmittel berechnen
@@ -104,7 +100,4 @@ fitted=mld.Fitted;
 plot(hRCS,fitted)
 titlestring=strcat('Regression von RCS und FMPS:', '  clear condition');
 title(titlestring)
-
-dim=[0.2 0.5 0.3 0.3];
-str=strcat(' adjusted R^2=',num2str(adjR2),', pValue=',num2str(table2array(pValue_b1)));
-annotation('textbox',dim,'String',str,'FitBoxToText','on');
+annotation('textbox','String','
