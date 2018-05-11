@@ -9,14 +9,14 @@ ceilo = read_ceilo_from_url(list_dates,root_url);
 aerosol_top = get_TCAL(list_dates);
 %% height vs time plot
 figure;
-pcolor(ceilo.time,ceilo.range,log10(0.75*abs(ceilo.RCS)));
+pcolor(ceilo.time,ceilo.range,log10(abs*0.75(ceilo.RCS));
 shading flat;
 hc = colorbar;
 colormap(jet);
 caxis([2.4 5.5]);
 %set(gca, 'YScale', 'log')
 datetick;
-ylim([0 3000]);
+%ylim([0 3000]);
 hold on
 plot(ceilo.time,aerosol_top,'k', 'LineWidth',2)
 datetick;
