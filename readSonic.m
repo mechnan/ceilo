@@ -186,28 +186,6 @@ subplot(4,1,4)
 plot(datetime(sonic(:,1),'ConvertFrom','datenum'),sonic(:,8),'gx');
 ylabel('Wind (m/s)');
 
-%% NO
-
-figure('units','normalized','outerposition',[0 0 1 1]);
-subplot(3,1,1)
-plot(messwagen.time,messwagen.NO,'rx')
-set(gca,'Xtick',floor(messwagen.time(1)):4/24:ceil(messwagen.time(end)));
-datetick('x',15,'keepticks','keeplimits')
-ylim([0 20])
-ylabel('NO')
-hold on;
-
-subplot(3,1,2)
-plot(messwagen.time,messwagen.NOX,'rx')
-set(gca,'Xtick',floor(messwagen.time(1)):4/24:ceil(messwagen.time(end)));
-datetick('x',15,'keepticks','keeplimits')
-ylim([0 20])
-ylabel('NOx')
-
-subplot(3,1,3)
-num = xlsread('03-03-18-LUEFTUNG.xlsx');
-num(:,1) = datenum(num(:,1));
-plot(datetime(num(:,1),'ConvertFrom','datenum'),num(:,2));
 
 %% Hochfrequente Winddaten aus Sonic
 % read_sonic_run_from_files2 benutzen! Nur 15 Minuten Zeitskala!
