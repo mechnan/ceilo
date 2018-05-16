@@ -6,7 +6,7 @@ root_url = 'http://iacweb.ethz.ch/staff//krieger/data/FS18/Ceilometer/';
 
 
 ceilo = read_ceilo_from_url(list_dates,root_url);
-
+aerosol_top = get_TCAL(list_dates);
 %% height vs time plot
 figure;
 pcolor(ceilo.time,ceilo.range,log10(abs(0.75*(ceilo.RCS))));
@@ -18,7 +18,10 @@ caxis([2.4 5.5]);
 datetick;
 ylim([0 3000]);
 title('Height vs Time Plot')
-
+hold on
+plot(ceilo.time,aerosol_top,'k', 'LineWidth',2)
+datetick;
+hold off
 %% clouds
 [cloudPresence, cloudHeight] = getclouds(ceilo);
 
