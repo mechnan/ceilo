@@ -6,7 +6,7 @@ clc
 path='/Users/RemoSigg/polybox/ETH-ERDW/ERDW - 6.Semester/Praktikum Atmosphäre/Ceilometergruppe/CeilometerFS2018/data/Sonic';
 
 % Zeitperiode
-time_period = datenum(2018,03,02,00,00,00):15/60/24:datenum(2018,03,03,00,00,00);
+time_period = datenum(2018,02,22,00,00,00):15/60/24:datenum(2018,03,08,00,00,00);
 
 % sonic data in matrix
 % sonic = read_sonic_run_from_url(time_period, root_url);
@@ -79,11 +79,12 @@ if test_timearray(4) == 48 && test_timearray(5) == 48
     plot(t,H_lo,'color',[.8 .8 .8])
     datetick('x','HH:MM','keeplimits','keepticks')
     grid on;
-    title(['Tagesgang des sensiblen Wärmeflusses gemittelt über ', num2str(Tage),' Tage'])
-    xlabel('Zeit')
-    ylabel('H [W/m^2]')
-    legend('Stndardabweichung')
+    title(['\fontsize{16} Tagesgang sensibler Wärmefluss gemittelt über ', num2str(Tage),' Tage'])
+    xlabel('\fontsize{16} Zeit')
+    ylabel('\fontsize{16} H [W/m^2]')
+    legend('\fontsize{16} Stndardabweichung')
     ylim([-60 100])
+    set(gca,'FontSize',14); 
     
     % Plot latenter Waermefluss
     subplot(1,2,2)
@@ -94,12 +95,13 @@ if test_timearray(4) == 48 && test_timearray(5) == 48
     plot(t,E_lo,'color',[.8 .8 .8])
     datetick('x','HH:MM','keeplimits','keepticks')
     grid on;
-    title(['Tagesgabg des latenten Wärmeflusses gemittelt über ', num2str(Tage),' Tage'])
-    xlabel('Zeit')
-    ylabel('E [W/m^2]')
-    legend('Standardabweichung')
+    title(['\fontsize{16} Tagesgabg latenter Wärmefluss gemittelt über ', num2str(Tage),' Tage'])
+    xlabel('\fontsize{16} Zeit')
+    ylabel('\fontsize{16} E [W/m^2]')
+    legend('\fontsize{16} Standardabweichung')
     ylim([-60 100])
-    
+    set(gca,'FontSize',14); 
+     
 else
      disp('Bitte Zeitperiode um 00:00 Uhr starten')
 end

@@ -4,7 +4,7 @@
 
 
 %% calculate mean potential temperature at Grono and Castaneda
-list_dates = datenum(2018,2,26):datenum(2018,2,27);
+list_dates = datenum(2018,02,27):datenum(2018,03,08);
 
 time_theta = floor(list_dates(1)):1/24:ceil(list_dates(end));
 
@@ -89,20 +89,18 @@ for i=1:length(stability_index_hourly)
     mask_before = time>=datetime_hourly(i)-1/24 & time<datetime_hourly(i);
 end
 
-
-%% plot stability index Grono - Castaneda
+% plot stability index Grono - Castaneda
 
 stability_index2 = NaN(length(slope_theta),1);
 for i=1:length(slope_theta)
-    if slope_theta(i)-ground_theta(i)>=1 
+    if slope_theta(i)-ground_theta(i)>=1
         stability_index2(i) = 3;% stable
-    elseif slope_theta(i)-ground_theta(i)<=-0.5
+    elseif slope_theta(i)-ground_theta(i)<=-0.1
         stability_index2(i) = 1;% unstable
     else
         stability_index2(i) = 2;% neutral        
     end
 end
-
 
 figure('units','normalized','outerposition',[0 0 1 1]);
 subplot(2,1,1)
@@ -118,9 +116,10 @@ ylabel('Stabilität');
 xlabel('Zeit');
 legend('pot. Temperatur Grono - Castaneda','sonic data');
 grid on;
+set(gca,'FontSize',14); 
 
 
-%% Plot Theta difference
+% Plot Theta difference
 
 hold on;
 
@@ -136,4 +135,5 @@ xlabel('Zeit');
 title('\theta Differenz')
 legend(list_plots,list_legends);
 grid on;box on;
+set(gca,'FontSize',14); 
 
