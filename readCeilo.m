@@ -1,5 +1,5 @@
 
-clear
+
 
 root_url = 'http://iacweb.ethz.ch/staff//krieger/data/FS18/Ceilometer/';
 
@@ -34,7 +34,7 @@ ylabel('Mean backscatter over first 50m');
 xlabel('time UT');
 
 %% time averaging
-mask_time = mod(ceilo.time,1)>=6/24 & mod(ceilo.time,1)<=15/24 ; 
+mask_time = mod(ceilo.time,1)>=21/24 & mod(ceilo.time,1)<=23/24 ; 
 mean_profile = nanmean(ceilo.RCS(:,mask_time),2);
 
 figure;
