@@ -6,7 +6,7 @@ clc
 path='/Users/RemoSigg/polybox/ETH-ERDW/ERDW - 6.Semester/Praktikum Atmosphäre/Ceilometergruppe/CeilometerFS2018/data/Sonic';
 
 % Zeitperiode
-time_period = datenum(2018,02,22,00,00,00):15/60/24:datenum(2018,03,08,00,00,00);
+time_period = datenum(2018,02,28,00,00,00):15/60/24:datenum(2018,03,00,00,00,00);
 
 % sonic data in matrix
 % sonic = read_sonic_run_from_url(time_period, root_url);
@@ -205,7 +205,7 @@ ylabel('Wind (m/s)');
 
 %% Windrose sonic
 
-WindRose(sonic(:,14),sonic(:,8));
+WindRose(sonic(:,14),sonic(:,8),'anglenorth',0,'angleeast',90);
 
 %% Windrose messwagen
 
@@ -215,4 +215,4 @@ messwagen.Wges = messwagen.Wges(mask_wind);
 messwagen.time = messwagen.time(mask_wind);
 messwagen.WR = messwagen.WR(mask_wind);
 
-WindRose(messwagen.WR,messwagen.Wges);
+WindRose(messwagen.WR,messwagen.Wges,'anglenorth',0,'angleeast',90);

@@ -3,11 +3,12 @@ clear all
 clc
 
 jahr = 2018;
-monat = 03;
-tag = 02;
+monat = 02;
+tag = 27;
 
+%% Read all data
 
-%% read Sonic Daten 
+% read Sonic Daten 
 
 % Dateipfad
 path='/Users/RemoSigg/polybox/ETH-ERDW/ERDW - 6.Semester/Praktikum Atmosphäre/Ceilometergruppe/CeilometerFS2018/data/Sonic';
@@ -18,7 +19,7 @@ time_period = datenum(jahr,monat,tag,00,00,00):15/60/24:datenum(jahr,monat,tag+1
 % read sonic
 sonic = read_sonic_run_from_files(time_period, path);
 
-%% read Messwagen 
+% read Messwagen 
 
 % Initialisiere die Daten
 messwagen.O3       = [];
@@ -49,7 +50,16 @@ filepath = '/Users/RemoSigg/polybox/ETH-ERDW/ERDW - 6.Semester/Praktikum Atmosph
 year = int2str(jahr);
 month = int2str(monat);
 day = int2str(tag);
-filename= [filepath '/' 'Rov_ACRO400_' year '0' month '0' day '.dat'];
+
+if monat >= 0 && monat < 10
+    if tag >= 0 && tag < 10
+        filename= [filepath '/' 'Rov_ACRO400_' year '0' month '0' day '.dat'];
+    else
+        filename= [filepath '/' 'Rov_ACRO400_' year '0' month day '.dat'];
+    end
+else
+    filename= [filepath '/' 'Rov_ACRO400_' year month day '.dat'];
+end
 
 disp(filename);
 
@@ -88,7 +98,7 @@ messwagen.sec   = [ messwagen.sec;   str2num( datestring(:,13:14)) ];
 % Setze das 'serial date time' für jede Messung
 messwagen.time = datenum(messwagen.year,messwagen.month,messwagen.day,messwagen.hour,messwagen.min,messwagen.sec);
 
-%% read Lueftungsdaten Vektor [Zeit, Ein oder Aus] alle 10min 
+% read Lueftungsdaten Vektor [Zeit, Ein oder Aus] alle 10min 
 
 Startzeit1 = datenum(2018,03,01,00,05,00);
 Endzeit1 = datenum(2018,03,25,01,55,00); 
@@ -105,15 +115,14 @@ Lueftung = xlsread('Lueftungssystemdaten.xlsx','B3:B4460');
 clear Endzeit1 Endzeit2 Startzeit1 Startzeit2 intervall1 intervall2
 Lueftungsdaten = [intervall, Lueftung];
 
-%% Winddaten + Korrektur
+% Windkorrektur
 
 windrichtung_sonic = mod(sonic(:,14)+180,360);
-windrichtung_messwagen = mod(messwagen.WR+180,360);
+messwagen.WR = mod(messwagen.WR+180,360);
 windgeschwindigkeit_sonic = sonic(:,8);
-windgeschwindigkeit_messwagen = messwagen.Wges;
 
-WindRose(windrichtung_sonic,windgeschwindigkeit_sonic);
-WindRose(windrichtung_messwagen,windgeschwindigkeit_messwagen);
+WindRose(windrichtung_sonic,windgeschwindigkeit_sonic,'anglenorth',0,'angleeast',90);
+WindRose(messwagen.WR,messwagen.Wges,'anglenorth',0,'angleeast',90);
 
 %% Plot Wind Sonic + Messwagen und Lueftungsdaten in Tageszeitreihen
 
@@ -132,12 +141,15 @@ daten = Lueftungsdaten(i:j,1:2);
 
 figure;
 subplot(3,1,3)
-plot(datetime(daten(:,1),'ConvertFrom','datenum'),daten(:,2))
+plot(datetime(daten(:,1),'ConvertFrom','datenum'),daten(:,2),'x')
 ylim([-1 3])
 yticks([-1 0 2 3])
 yticklabels({'','Aus','Ein',''})
-title('Status Lüftung (alle 10min)')
+title('Status Lüftung alle 10min')
 grid on
+set(gca,'FontSize',14); 
+
+
 
 % sonic Winddaten dieses Tages ploten
 subplot(3,1,2)
@@ -146,8 +158,13 @@ subplot(3,1,2)
 h1.Marker = '+';
 ylabel(ax(1),'Windrichtung')
 ylabel(ax(2),'Windgeschwindigkeit')
+ylim(ax(1),[0 360])
+yticks(ax(1), [0 90 180 270 360])
 title('Sonic Winddaten (15min mittel)')
 grid on
+set(gca,'FontSize',14); 
+set(ax(2),'FontSize',14); 
+
 
 % 10 Minuten Mittel Messwagen berechnen
 % Initialisiere 
@@ -184,8 +201,15 @@ subplot(3,1,1)
 h11.Marker = '+';
 ylabel(axx(1),'Windrichtung')
 ylabel(axx(2),'Windgeschwindigkeit')
+ylim(axx(1),[0 360])
+ylim(axx(2),[0 4])
+yticks(axx(1), [0 90 180 270 360])
+yticks(axx(2), [0 1 2 3 4])
 title('Messwagen Winddaten (10min mittel)')
 grid on
+set(gca,'FontSize',14); 
+set(ax(2),'FontSize',14); 
+
 
 %% Ueberpruefen ob Luft über Messwagen bzw. Sonic aus Luftschacht stammt
 
@@ -193,8 +217,8 @@ comb = [date , daten(:,2) , vel , wr ];
 
 % Winkelbereich bestimmen
 
-range_start = 0;
-range_end = 90;
+range_start = 210;
+range_end = 300;
 
 % Kommt Luft von Luftschacht? (Messwagen)
 dir = [];
@@ -239,30 +263,34 @@ comb = [date , daten(:,2) , vel , wr , dir, sonic_wr , sonic_vel , sonic_dir  ];
 
 figure;
 subplot(3,1,1)
-plot(datetime(comb(:,1),'ConvertFrom','datenum'),comb(:,2))
+plot(datetime(comb(:,1),'ConvertFrom','datenum'),comb(:,2),'x')
 ylim([-1 3])
 yticks([-1 0 2 3])
 yticklabels({'','Aus','Ein',''})
 title('Status Lüftung (alle 10min)')
 grid on
+set(gca,'FontSize',14); 
+
 
 subplot(3,1,2)
-plot(datetime(comb(:,1),'ConvertFrom','datenum'),comb(:,5))
+stairs(datetime(comb(:,1),'ConvertFrom','datenum'),comb(:,5),'-')
 ylim([-1 2])
 yticks([-1 0 1 2])
 yticklabels({'','Nein','Ja',''})
-title('Luft über Messwagen aus Richtung Luftschacht?')
+title('Luft aus Luftschacht Richtung Roveredo Dorf (Messwagen)?')
 grid on
+set(gca,'FontSize',14); 
+
 
 subplot(3,1,3)
 title('Luft über Sonic aus Richtung Luftschacht?')
-plot(datetime(comb(:,1),'ConvertFrom','datenum'),comb(:,8))
+stairs(datetime(comb(:,1),'ConvertFrom','datenum'),comb(:,8),'-')
 ylim([-1 2])
 yticks([-1 0 1 2])
 yticklabels({'','Nein','Ja',''})
-title('Luft über Sonic aus Richtung Luftschacht?')
+title('Luft aus Luftschacht Richtung Roveredo Dorf (Sonic)?')
 grid on
-
+set(gca,'FontSize',14); 
 
 
 
