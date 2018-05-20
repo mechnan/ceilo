@@ -3,10 +3,10 @@ clear all
 clc
 
 jahr = 2018;
-monat = 02;
-tag = 27;
+monat = 03;
+tag = 03;
 
-%% Read all data
+%% Read all data 
 
 % read Sonic Daten 
 
@@ -124,7 +124,8 @@ windgeschwindigkeit_sonic = sonic(:,8);
 WindRose(windrichtung_sonic,windgeschwindigkeit_sonic,'anglenorth',0,'angleeast',90);
 WindRose(messwagen.WR,messwagen.Wges,'anglenorth',0,'angleeast',90);
 
-%% Plot Wind Sonic + Messwagen und Lueftungsdaten in Tageszeitreihen
+
+%% Plot Wind Sonic + Messwagen und Lueftungsdaten in Tageszeitreihen 
 
 % Grenzen Zeitvektor 
 Tagesbeginn = datenum(jahr,monat,tag,00,00,00);
@@ -211,7 +212,7 @@ set(gca,'FontSize',14);
 set(ax(2),'FontSize',14); 
 
 
-%% Ueberpruefen ob Luft über Messwagen bzw. Sonic aus Luftschacht stammt
+%% Ueberpruefen ob Luft über Messwagen bzw. Sonic aus Luftschacht stammt 
 
 comb = [date , daten(:,2) , vel , wr ];
 
@@ -308,4 +309,41 @@ set(gca,'FontSize',14);
 %     end
 %     
 % end
+
+
+%% Luftqualitäts check
+
+figure;
+subplot(4,1,1)
+plot(datetime(daten(:,1),'ConvertFrom','datenum'),daten(:,2),'x')
+ylim([-1 3])
+yticks([-1 0 2 3])
+yticklabels({'','Aus','Ein',''})
+title('Status Lüftung alle 10min')
+grid on
+set(gca,'FontSize',14); 
+
+subplot(4,1,2)
+stairs(datetime(comb(:,1),'ConvertFrom','datenum'),comb(:,5),'-')
+ylim([-1 2])
+yticks([-1 0 1 2])
+yticklabels({'','Nein','Ja',''})
+title('Luft aus Luftschacht Richtung Roveredo Dorf (Messwagen)?')
+grid on
+set(gca,'FontSize',14); 
+
+subplot(4,1,3)
+plot(datetime(messwagen.time,'ConvertFrom','datenum'),messwagen.PM10);
+ylabel('PM10')
+title('PM10 Messung Messwagen')
+grid on
+set(gca,'FontSize',14); 
+
+subplot(4,1,4)
+plot(datetime(messwagen.time,'ConvertFrom','datenum'),messwagen.NOX,'x');
+ylabel('NOX')
+ylim([0 20])
+title('NOX Messung Messwagen')
+grid on
+set(gca,'FontSize',14); 
 
