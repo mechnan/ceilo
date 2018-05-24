@@ -4,7 +4,7 @@ clc
 
 jahr = 2018;
 monat = 03;
-tag = 03;
+tag = 04;
 
 %% Read all data 
 
@@ -117,7 +117,7 @@ Lueftungsdaten = [intervall, Lueftung];
 
 % Windkorrektur
 
-windrichtung_sonic = mod(sonic(:,14)+180,360);
+windrichtung_sonic = mod(sonic(:,14)+135,360);
 messwagen.WR = mod(messwagen.WR+180,360);
 windgeschwindigkeit_sonic = sonic(:,8);
 
@@ -160,7 +160,9 @@ h1.Marker = '+';
 ylabel(ax(1),'Windrichtung')
 ylabel(ax(2),'Windgeschwindigkeit')
 ylim(ax(1),[0 360])
+ylim(ax(2),[0 4])
 yticks(ax(1), [0 90 180 270 360])
+yticks(ax(2), [0 1 2 3 4])
 title('Sonic Winddaten (15min mittel)')
 grid on
 set(gca,'FontSize',14); 
@@ -209,7 +211,7 @@ yticks(axx(2), [0 1 2 3 4])
 title('Messwagen Winddaten (10min mittel)')
 grid on
 set(gca,'FontSize',14); 
-set(ax(2),'FontSize',14); 
+set(axx(2),'FontSize',14); 
 
 
 %% Ueberpruefen ob Luft über Messwagen bzw. Sonic aus Luftschacht stammt 
@@ -218,8 +220,8 @@ comb = [date , daten(:,2) , vel , wr ];
 
 % Winkelbereich bestimmen
 
-range_start = 210;
-range_end = 300;
+range_start = 190;
+range_end = 280;
 
 % Kommt Luft von Luftschacht? (Messwagen)
 dir = [];
