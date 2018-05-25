@@ -4,7 +4,7 @@ clc
 
 jahr = 2018;
 monat = 03;
-tag = 04;
+tag = 17;
 
 %% Read all data 
 
@@ -121,8 +121,8 @@ windrichtung_sonic = mod(sonic(:,14)+135,360);
 messwagen.WR = mod(messwagen.WR+180,360);
 windgeschwindigkeit_sonic = sonic(:,8);
 
-WindRose(windrichtung_sonic,windgeschwindigkeit_sonic,'anglenorth',0,'angleeast',90);
-WindRose(messwagen.WR,messwagen.Wges,'anglenorth',0,'angleeast',90);
+% WindRose(windrichtung_sonic,windgeschwindigkeit_sonic,'anglenorth',0,'angleeast',90);
+% WindRose(messwagen.WR,messwagen.Wges,'anglenorth',0,'angleeast',90);
 
 
 %% Plot Wind Sonic + Messwagen und Lueftungsdaten in Tageszeitreihen 
@@ -157,8 +157,8 @@ subplot(3,1,2)
 [ax, h1, h2] = plotyy(datetime(sonic(:,1),'ConvertFrom','datenum'),windrichtung_sonic,datetime(sonic(:,1), ... 
     'ConvertFrom','datenum'),windgeschwindigkeit_sonic);
 h1.Marker = '+';
-ylabel(ax(1),'Windrichtung')
-ylabel(ax(2),'Windgeschwindigkeit')
+ylabel(ax(1),'Windrichtung (°)')
+ylabel(ax(2),'Windgeschwindigkeit (m/s)')
 ylim(ax(1),[0 360])
 ylim(ax(2),[0 4])
 yticks(ax(1), [0 90 180 270 360])
@@ -202,8 +202,8 @@ subplot(3,1,1)
 [axx, h11, h22] = plotyy(datetime(date,'ConvertFrom','datenum'),wr, ... 
    datetime(date,'ConvertFrom','datenum'),vel);
 h11.Marker = '+';
-ylabel(axx(1),'Windrichtung')
-ylabel(axx(2),'Windgeschwindigkeit')
+ylabel(axx(1),'Windrichtung (°)')
+ylabel(axx(2),'Windgeschwindigkeit (m/s)')
 ylim(axx(1),[0 360])
 ylim(axx(2),[0 4])
 yticks(axx(1), [0 90 180 270 360])
@@ -336,15 +336,15 @@ set(gca,'FontSize',14);
 
 subplot(4,1,3)
 plot(datetime(messwagen.time,'ConvertFrom','datenum'),messwagen.PM10);
-ylabel('PM10')
+ylabel('PM10 (µg/m3)')
 title('PM10 Messung Messwagen')
 grid on
 set(gca,'FontSize',14); 
 
 subplot(4,1,4)
 plot(datetime(messwagen.time,'ConvertFrom','datenum'),messwagen.NOX,'x');
-ylabel('NOX')
-ylim([0 20])
+ylabel('NOX (ppb)')
+% ylim([0 20])
 title('NOX Messung Messwagen')
 grid on
 set(gca,'FontSize',14); 
